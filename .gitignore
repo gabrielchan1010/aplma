@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.coverage
+
+# Virtual environments
+.venv
+
+# Jupyter
+.ipynb_checkpoints/
+
+# PDFs / ingested documents — never commit
+*.pdf
+documents/
+uploads/
+
+# Secrets — never commit
+.env
+
+# Generated reports
+*_review_report.html
+
+# macOS
+.DS_Store
+
+# Claude Code project settings (local only)
+.claude/

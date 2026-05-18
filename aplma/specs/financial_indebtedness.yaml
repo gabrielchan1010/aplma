@@ -1,0 +1,61 @@
+spec_version: "1.2"
+covenant_type: "financial_indebtedness"
+description: >
+  Finds the Financial Indebtedness covenant in an APLMA facility agreement:
+  the main definition, the Permitted Financial Indebtedness exceptions, and
+  the General Covenants restriction clause.
+
+# What this file does:
+#   Tells the system how to find the "Financial Indebtedness" clauses.
+#   Edit the lists below if a new agreement uses different wording.
+#
+# Editing tips:
+#   - Keep each phrase short and distinctive.
+#   - You do not need to add quote, capitalisation, or spacing variants.
+#     For example, "Financial Indebtedness means" also matches
+#     '"Financial Indebtedness" means' and 'FINANCIAL INDEBTEDNESS MEANS'.
+#   - Put the most common wording first.
+
+# ═══════════════════════════════════════════════════════════════════════════
+# A. Used by the AI page-finder (fuzzy, instruction-like)
+#    The AI reads these to decide which pages of the agreement to fetch.
+# ═══════════════════════════════════════════════════════════════════════════
+
+# Words the AI searches for to locate the right pages.
+search_terms:
+  - "Financial Indebtedness"
+  - "Permitted Financial Indebtedness"
+
+# Instructions the AI follows when picking page ranges. Usually leave this
+# alone unless the system fetches the wrong pages for a new agreement.
+page_finding_instructions: >
+  Fetch two page ranges.
+
+  Range 1 — Definitions section, usually Clause 1.1 near the start.
+  Include both "Financial Indebtedness means" and "Permitted Financial
+  Indebtedness means". Return one tight range. Do not widen past unrelated
+  definitions.
+
+  Range 2 — General Covenants section, usually late in the agreement.
+  Find the sub-clause headed "Financial Indebtedness" that restricts the
+  borrower from incurring Financial Indebtedness. Keep this range to 1-2 pages.
+
+  Return exactly two ranges. Do not merge them.
+
+# ═══════════════════════════════════════════════════════════════════════════
+# B. Used by the exact-text parser (literal phrase match, no AI)
+#    The system scans the fetched pages for these phrases verbatim.
+# ═══════════════════════════════════════════════════════════════════════════
+
+# Opening phrases that mark each defined term.
+definition_openings:
+  financial_indebtedness:
+    - "Financial Indebtedness means"
+  permitted_financial_indebtedness:
+    - "Permitted Financial Indebtedness means"
+
+# Heading text for the restriction clause in General Covenants.
+# The clause number does not matter: "23.23 Financial Indebtedness" matches
+# the phrase below.
+restriction_heading:
+  - "Financial Indebtedness"
