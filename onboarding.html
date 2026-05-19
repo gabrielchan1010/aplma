@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APLMA Covenant Review — Getting Started</title>
+<style>
+:root {
+  --primary: #016868;
+  --navy: #234155;
+  --teal-100: #dcf9f8;
+  --teal-200: #b8e9e8;
+  --teal-300: #87cccc;
+  --teal-400: #50b0b0;
+  --teal-500: #0f9293;
+  --teal-600: #007475;
+  --navy-800: #102635;
+  --navy-900: #05131d;
+  --n100: #fcfcfc;
+  --n200: #f2f2f2;
+  --n300: #e4e4e4;
+  --n400: #cecece;
+  --n500: #9e9e9e;
+  --n600: #717171;
+  --n700: #484848;
+  --n800: #222222;
+  --n900: #030303;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--n800);
+  background: var(--navy-900);
+  overflow: hidden;
+}
+
+.deck {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide {
+  width: 100%;
+  height: 100%;
+  padding: 4.5rem 5.5rem;
+  display: none;
+  flex-direction: column;
+  background: var(--n100);
+  position: relative;
+  overflow: auto;
+}
+
+.slide.active { display: flex; }
+
+.slide.dark { background: var(--navy-900); color: var(--n100); }
+.slide.teal { background: var(--primary); color: var(--n100); }
+.slide.cream { background: #faf9f6; }
+
+/* ── Typography ─────────────────────────────────────────────── */
+h1 {
+  font-size: 3.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+}
+.dark h1, .teal h1 { color: var(--n100); }
+
+h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.015em;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+.dark h2 { color: var(--teal-300); }
+.teal h2 { color: var(--n100); }
+
+h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+.dark h3 { color: var(--teal-300); }
+
+p, li {
+  font-size: 1.2rem;
+  line-height: 1.65;
+  color: var(--n700);
+}
+.dark p, .dark li { color: var(--n300); }
+.teal p, .teal li { color: var(--teal-100); }
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal-500);
+  margin-bottom: 1.5rem;
+}
+.dark .eyebrow { color: var(--teal-300); }
+.teal .eyebrow { color: var(--teal-100); opacity: 0.85; }
+
+.lede {
+  font-size: 1.45rem;
+  color: var(--n700);
+  max-width: 60ch;
+  line-height: 1.55;
+}
+.dark .lede { color: var(--n200); }
+
+/* ── Layout helpers ─────────────────────────────────────────── */
+.title-slide {
+  justify-content: center;
+}
+.title-slide h1 {
+  font-size: 4rem;
+}
+.title-slide .subtitle {
+  font-size: 1.5rem;
+  color: var(--teal-300);
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+  flex: 1;
+  margin-top: 1rem;
+}
+
+.cols.narrow-left {
+  grid-template-columns: 5fr 7fr;
+}
+
+.split-vert {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+}
+.checklist li {
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  font-size: 1.2rem;
+}
+.checklist .dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--teal-100);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-top: 0.1rem;
+}
+.dark .checklist .dot { background: var(--primary); color: var(--n100); }
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--teal-100);
+  color: var(--primary);
+}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid var(--n300);
+  box-shadow: 0 1px 0 rgba(16, 38, 53, 0.03), 0 4px 18px rgba(16, 38, 53, 0.04);
+}
+.card h3 { color: var(--primary); margin-bottom: 0.4rem; }
+.card p { font-size: 1.05rem; color: var(--n700); }
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.tech-row {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1.1rem 1.4rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--n300);
+}
+.tech-row .icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--teal-100);
+  border-radius: 10px;
+  color: var(--primary);
+}
+.tech-row strong {
+  color: var(--navy);
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.tech-row p { font-size: 1rem; color: var(--n600); }
+
+/* ── Pipeline diagram ───────────────────────────────────────── */
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+.pipe-step {
+  background: white;
+  border: 1px solid var(--n300);
+  border-radius: 10px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  position: relative;
+}
+.pipe-step .num {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.pipe-step strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: 0.35rem;
+}
+.pipe-step .tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.4rem;
+}
+.pipe-step .logo {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.6rem auto 0.55rem;
+}
+.pipe-step .logo svg { height: 100%; width: auto; max-width: 38px; display: block; }
+.pipe-step .tag.cloud { background: #fef3c7; color: #92400e; }
+.pipe-step .tag.local { background: #dbeafe; color: #1e40af; }
+.pipe-step .tag.py    { background: var(--teal-100); color: var(--primary); }
+.pipe-step p { font-size: 0.82rem; color: var(--n600); line-height: 1.4; }
+
+/* ── Mock UI screens ────────────────────────────────────────── */
+.mockup {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--n300);
+  box-shadow: 0 8px 32px rgba(16, 38, 53, 0.08);
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+.mockup .titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  background: var(--n200);
+  border-bottom: 1px solid var(--n300);
+}
+.mockup .titlebar .dot-r { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
+.mockup .titlebar .dot-y { width: 12px; height: 12px; border-radius: 50%; background: #febc2e; }
+.mockup .titlebar .dot-g { width: 12px; height: 12px; border-radius: 50%; background: #28c840; }
+.mockup .titlebar .url {
+  margin-left: 0.85rem;
+  background: white;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: var(--n600);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  flex: 1;
+  border: 1px solid var(--n300);
+}
+.mockup .body { padding: 1.25rem 1.4rem; }
+
+.btn-mock {
+  display: inline-block;
+  padding: 0.55rem 1rem;
+  background: #1a73e8;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  position: relative;
+}
+.btn-mock.pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 3px solid var(--teal-400);
+  border-radius: 10px;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+.input-mock {
+  display: block;
+  background: var(--n200);
+  border: 1px solid var(--n300);
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  color: var(--n700);
+  margin: 0.4rem 0;
+}
+
+.colab-sidebar {
+  display: flex;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--n300);
+  overflow: hidden;
+  min-height: 320px;
+}
+.colab-sidebar .rail {
+  width: 56px;
+  background: var(--n200);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1rem 0;
+  border-right: 1px solid var(--n300);
+}
+.colab-sidebar .rail .icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--n600);
+  position: relative;
+}
+.colab-sidebar .rail .icon.active {
+  color: var(--primary);
+  background: var(--teal-100);
+}
+.colab-sidebar .rail .icon.active::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 3px solid var(--teal-400);
+  border-radius: 10px;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.colab-sidebar .panel {
+  flex: 1;
+  padding: 1rem 1.25rem;
+}
+.colab-sidebar .panel h4 {
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: 0.75rem;
+}
+.secret-row {
+  display: grid;
+  grid-template-columns: 22px 1fr 1fr;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.5rem 0.6rem;
+  background: var(--n200);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  margin-bottom: 0.5rem;
+}
+.secret-row .toggle {
+  width: 22px;
+  height: 12px;
+  background: var(--teal-500);
+  border-radius: 6px;
+  position: relative;
+}
+.secret-row .toggle::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  right: 1px;
+  top: 1px;
+}
+.secret-row code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--n700);
+}
+
+/* ── Doc preview mock ───────────────────────────────────────── */
+.doc-preview {
+  background: white;
+  border: 1px solid var(--n300);
+  border-radius: 10px;
+  padding: 1.5rem;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--n800);
+  position: relative;
+}
+.doc-preview .doc-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.4rem;
+}
+.doc-preview .clause {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--n700);
+  margin-bottom: 0.65rem;
+}
+.doc-preview .hl {
+  background: var(--teal-100);
+  padding: 0 0.15rem;
+}
+.doc-preview .badge {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: #dcfce7;
+  color: #15803d;
+  margin-left: 0.4rem;
+}
+
+/* ── Logo / hero ────────────────────────────────────────────── */
+.brand { display: none; }
+.title-slide .brand {
+  display: block;
+  position: absolute;
+  top: 2rem;
+  left: 2.5rem;
+}
+.dark .brand, .teal .brand { color: var(--teal-300); opacity: 0.7; }
+
+/* ── Navigation chrome ──────────────────────────────────────── */
+.nav {
+  position: absolute;
+  bottom: 1.4rem;
+  right: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--n500);
+  z-index: 10;
+}
+.dark .nav, .teal .nav { color: var(--teal-200); opacity: 0.7; }
+
+.nav button {
+  background: white;
+  border: 1px solid var(--n300);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.nav button:hover { background: var(--teal-100); border-color: var(--teal-300); }
+.dark .nav button, .teal .nav button { background: transparent; border-color: var(--teal-300); color: var(--teal-200); }
+.dark .nav button:hover, .teal .nav button:hover { background: rgba(135, 204, 204, 0.15); }
+
+.counter {
+  position: absolute;
+  bottom: 1.6rem;
+  left: 2.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--n500);
+  font-weight: 600;
+}
+.dark .counter, .teal .counter { color: var(--teal-200); opacity: 0.65; }
+
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--teal-300);
+  transition: width 0.3s ease;
+  z-index: 20;
+}
+
+/* ── Hero illustration ──────────────────────────────────────── */
+.hero-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.callout {
+  background: var(--teal-100);
+  border-left: 4px solid var(--primary);
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin-top: 1.25rem;
+}
+.callout p { font-size: 1rem; color: var(--navy); }
+.callout strong { color: var(--primary); }
+
+.dark .callout {
+  background: rgba(135, 204, 204, 0.1);
+  border-left-color: var(--teal-300);
+}
+.dark .callout p { color: var(--teal-100); }
+.dark .callout strong { color: var(--teal-300); }
+
+.kbd-hint {
+  position: absolute;
+  bottom: 1.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.78rem;
+  color: var(--n500);
+  opacity: 0.6;
+}
+.dark .kbd-hint, .teal .kbd-hint { color: var(--teal-200); }
+.kbd-hint kbd {
+  background: white;
+  border: 1px solid var(--n300);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.72rem;
+  color: var(--n700);
+}
+.dark .kbd-hint kbd, .teal .kbd-hint kbd {
+  background: transparent;
+  border-color: var(--teal-300);
+  color: var(--teal-200);
+}
+
+@media (max-width: 1000px) {
+  .slide { padding: 2.5rem 2rem 5rem; }
+  h1 { font-size: 2.4rem; }
+  h2 { font-size: 1.6rem; }
+  .cols { grid-template-columns: 1fr; gap: 1.5rem; }
+  .pipeline { grid-template-columns: 1fr 1fr; }
+  .nav { bottom: 1.1rem; right: 1.25rem; gap: 0.6rem; }
+  .nav button { width: 48px; height: 48px; font-size: 1.4rem; }
+  .counter { bottom: 1.6rem; left: 1.25rem; }
+  .brand { top: 1.25rem; left: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ───── Slide 1: Title ───── -->
+  <section class="slide dark title-slide active">
+    <div class="brand" style="opacity: 1;">
+      <svg width="146" height="40" viewBox="0 0 122 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M51.76 25.24C50.96 25.24 50.2467 25.1133 49.62 24.86C48.9933 24.5933 48.46 24.2267 48.02 23.76C47.5933 23.28 47.2667 22.7 47.04 22.02C46.8267 21.34 46.72 20.58 46.72 19.74C46.72 18.9133 46.8267 18.1667 47.04 17.5C47.2533 16.82 47.5667 16.24 47.98 15.76C48.4067 15.28 48.9267 14.9133 49.54 14.66C50.1533 14.3933 50.8533 14.26 51.64 14.26C52.5067 14.26 53.2467 14.4067 53.86 14.7C54.4867 14.9933 54.9933 15.3867 55.38 15.88C55.78 16.3733 56.0667 16.9467 56.24 17.6C56.4267 18.24 56.52 18.9133 56.52 19.62V20.5H49.78V20.66C49.78 21.3533 49.9667 21.9067 50.34 22.32C50.7133 22.72 51.3 22.92 52.1 22.92C52.7133 22.92 53.2133 22.8 53.6 22.56C53.9867 22.3067 54.3467 22.0067 54.68 21.66L56.16 23.5C55.6933 24.0467 55.08 24.4733 54.32 24.78C53.5733 25.0867 52.72 25.24 51.76 25.24ZM51.7 16.44C51.1 16.44 50.6267 16.64 50.28 17.04C49.9467 17.4267 49.78 17.9467 49.78 18.6V18.76H53.46V18.58C53.46 17.94 53.3133 17.4267 53.02 17.04C52.74 16.64 52.3 16.44 51.7 16.44ZM58.1105 25V14.5H61.0705V16.28H61.1905C61.3771 15.7333 61.7038 15.26 62.1705 14.86C62.6371 14.46 63.2838 14.26 64.1105 14.26C65.1905 14.26 66.0038 14.62 66.5505 15.34C67.1105 16.06 67.3905 17.0867 67.3905 18.42V25H64.4305V18.66C64.4305 17.98 64.3238 17.48 64.1105 17.16C63.8971 16.8267 63.5171 16.66 62.9705 16.66C62.7305 16.66 62.4971 16.6933 62.2705 16.76C62.0438 16.8133 61.8371 16.9067 61.6505 17.04C61.4771 17.1733 61.3371 17.34 61.2305 17.54C61.1238 17.7267 61.0705 17.9467 61.0705 18.2V25H58.1105ZM69.5245 10.2H72.4845V16.26H72.5845C72.7312 15.6733 73.0645 15.1933 73.5845 14.82C74.1179 14.4467 74.7245 14.26 75.4045 14.26C76.7379 14.26 77.7445 14.7267 78.4245 15.66C79.1045 16.5933 79.4445 17.9533 79.4445 19.74C79.4445 21.5267 79.1045 22.8933 78.4245 23.84C77.7445 24.7733 76.7379 25.24 75.4045 25.24C75.0579 25.24 74.7312 25.1867 74.4245 25.08C74.1179 24.9867 73.8379 24.8533 73.5845 24.68C73.3445 24.4933 73.1379 24.28 72.9645 24.04C72.7912 23.7867 72.6645 23.52 72.5845 23.24H72.4845V25H69.5245V10.2ZM74.4245 22.84C74.9845 22.84 75.4445 22.6467 75.8045 22.26C76.1779 21.86 76.3645 21.3267 76.3645 20.66V18.84C76.3645 18.1733 76.1779 17.6467 75.8045 17.26C75.4445 16.86 74.9845 16.66 74.4245 16.66C73.8645 16.66 73.3979 16.8 73.0245 17.08C72.6645 17.3467 72.4845 17.72 72.4845 18.2V21.3C72.4845 21.78 72.6645 22.16 73.0245 22.44C73.3979 22.7067 73.8645 22.84 74.4245 22.84ZM84.1325 25C83.1192 25 82.3725 24.7533 81.8925 24.26C81.4258 23.7667 81.1925 23.0533 81.1925 22.12V10.2H84.1525V22.7H85.4725V25H84.1325ZM91.0072 25.24C90.2339 25.24 89.5405 25.1133 88.9272 24.86C88.3272 24.6067 87.8139 24.24 87.3872 23.76C86.9739 23.28 86.6539 22.7 86.4272 22.02C86.2005 21.34 86.0872 20.58 86.0872 19.74C86.0872 18.9 86.2005 18.14 86.4272 17.46C86.6539 16.78 86.9739 16.2067 87.3872 15.74C87.8139 15.26 88.3272 14.8933 88.9272 14.64C89.5405 14.3867 90.2339 14.26 91.0072 14.26C91.7805 14.26 92.4672 14.3867 93.0672 14.64C93.6805 14.8933 94.1939 15.26 94.6072 15.74C95.0339 16.2067 95.3605 16.78 95.5872 17.46C95.8139 18.14 95.9272 18.9 95.9272 19.74C95.9272 20.58 95.8139 21.34 95.5872 22.02C95.3605 22.7 95.0339 23.28 94.6072 23.76C94.1939 24.24 93.6805 24.6067 93.0672 24.86C92.4672 25.1133 91.7805 25.24 91.0072 25.24ZM91.0072 22.9C91.5939 22.9 92.0472 22.72 92.3672 22.36C92.6872 22 92.8472 21.4867 92.8472 20.82V18.68C92.8472 18.0133 92.6872 17.5 92.3672 17.14C92.0472 16.78 91.5939 16.6 91.0072 16.6C90.4205 16.6 89.9672 16.78 89.6472 17.14C89.3272 17.5 89.1672 18.0133 89.1672 18.68V20.82C89.1672 21.4867 89.3272 22 89.6472 22.36C89.9672 22.72 90.4205 22.9 91.0072 22.9ZM101.776 25.24C100.99 25.24 100.29 25.1133 99.6763 24.86C99.0629 24.5933 98.5496 24.2267 98.1363 23.76C97.7229 23.28 97.4096 22.7 97.1963 22.02C96.9829 21.34 96.8763 20.58 96.8763 19.74C96.8763 18.9 96.9829 18.1467 97.1963 17.48C97.4096 16.8 97.7229 16.22 98.1363 15.74C98.5496 15.26 99.0629 14.8933 99.6763 14.64C100.29 14.3867 100.99 14.26 101.776 14.26C102.843 14.26 103.73 14.5 104.436 14.98C105.156 15.46 105.67 16.1333 105.976 17L103.576 18.04C103.483 17.64 103.29 17.3 102.996 17.02C102.703 16.74 102.296 16.6 101.776 16.6C101.176 16.6 100.723 16.8 100.416 17.2C100.11 17.5867 99.9563 18.1133 99.9563 18.78V20.74C99.9563 21.4067 100.11 21.9333 100.416 22.32C100.723 22.7067 101.176 22.9 101.776 22.9C102.31 22.9 102.73 22.76 103.036 22.48C103.356 22.1867 103.59 21.8067 103.736 21.34L106.036 22.34C105.69 23.34 105.15 24.0733 104.416 24.54C103.696 25.0067 102.816 25.24 101.776 25.24ZM107.368 10.2H110.328V18.94H110.448L111.748 17L113.848 14.5H117.128L113.628 18.52L117.528 25H114.008L111.648 20.56L110.328 22.04V25H107.368V10.2Z" fill="#fcfcfc"/>
+        <path d="M13.76 6.39V0.86L3.23 6.39V13.63L0.52 16.21V17.79L3.23 20.19V26.99L13.76 32.52V28.06L7.4 24.5V18.47L5.65 17L7.4 15.44V9L13.76 6.39Z" stroke="#fcfcfc" stroke-width="1.04"/>
+        <path d="M22.48 6.39V0.86L32.78 6.39V13.63L35.62 16.21V17.79L32.78 20.19V26.99L22.48 32.52V28.06L28.58 24.5V18.47L30.35 17L28.58 15.44V9L22.48 6.39Z" stroke="#fcfcfc" stroke-width="1.04"/>
+      </svg>
+    </div>
+    <div class="eyebrow">Covenant Review</div>
+    <h1>Reading facility agreements,<br>without reading every page.</h1>
+    <div class="subtitle">A walk-through of the early prototype — testing whether automated extraction can surface covenant obligations reliably enough for an SME borrower to act on.</div>
+    <div style="margin-top: 2.5rem; display: flex; gap: 2rem; color: var(--teal-200); font-size: 1rem;">
+      <span>~5 minutes to set up</span>
+      <span>·</span>
+      <span>No technical experience needed</span>
+    </div>
+    <div class="counter">01 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 2: The Problem ───── -->
+  <section class="slide">
+    <div class="brand">Enblock</div>
+    <div class="cols narrow-left">
+      <div>
+        <div class="eyebrow">The Problem</div>
+        <h1>Most covenant breaches<br>are preventable.</h1>
+        <p style="margin-top: 1.5rem; max-width: 50ch;">
+          SME corporates sign facility agreements with hundreds of obligations buried across the document — definitions, restrictions, permitted carve-outs. Those obligations interact with every other contract the company signs.
+        </p>
+        <p style="margin-top: 1rem; max-width: 50ch;">
+          When two contracts conflict, the borrower often doesn't notice until a lender raises it. By then the legal fees to fix it dwarf what it would have cost to catch in advance.
+        </p>
+        <p style="margin-top: 1rem; max-width: 50ch; font-style: italic; color: var(--n600);">
+          Step one in preventing this: making every obligation visible.
+        </p>
+      </div>
+      <div class="hero-art">
+        <svg width="100%" viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg">
+          <!-- stack of documents -->
+          <rect x="60" y="80" width="220" height="260" rx="6" fill="#e4e4e4"/>
+          <rect x="70" y="65" width="220" height="260" rx="6" fill="#cecece"/>
+          <rect x="80" y="50" width="220" height="260" rx="6" fill="white" stroke="#9e9e9e" stroke-width="1"/>
+          <!-- lines on doc -->
+          <g fill="#cecece">
+            <rect x="100" y="75" width="180" height="6" rx="2"/>
+            <rect x="100" y="92" width="120" height="4" rx="2"/>
+            <rect x="100" y="115" width="180" height="4" rx="2"/>
+            <rect x="100" y="125" width="180" height="4" rx="2"/>
+            <rect x="100" y="135" width="160" height="4" rx="2"/>
+            <rect x="100" y="155" width="180" height="4" rx="2"/>
+            <rect x="100" y="165" width="180" height="4" rx="2"/>
+            <rect x="100" y="175" width="140" height="4" rx="2"/>
+            <rect x="100" y="200" width="180" height="4" rx="2"/>
+            <rect x="100" y="210" width="180" height="4" rx="2"/>
+            <rect x="100" y="220" width="160" height="4" rx="2"/>
+            <rect x="100" y="240" width="180" height="4" rx="2"/>
+            <rect x="100" y="250" width="170" height="4" rx="2"/>
+            <rect x="100" y="270" width="180" height="4" rx="2"/>
+            <rect x="100" y="280" width="180" height="4" rx="2"/>
+            <rect x="100" y="290" width="150" height="4" rx="2"/>
+          </g>
+          <!-- magnifier -->
+          <circle cx="290" cy="160" r="38" fill="white" stroke="#016868" stroke-width="4"/>
+          <line x1="316" y1="186" x2="345" y2="215" stroke="#016868" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="290" cy="160" r="38" fill="none" stroke="#87cccc" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+    <div class="counter">02 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 3: What it does ───── -->
+  <section class="slide cream">
+    <div class="brand">Enblock</div>
+    <div class="eyebrow">What This Prototype Does</div>
+    <h1 style="max-width: 22ch;">Hand it a PDF.<br>Get one covenant, end-to-end.</h1>
+    <p class="lede" style="margin-top: 1.5rem;">
+      This prototype tests whether the workflow holds up: parse the agreement, locate the right pages, lift the verbatim text, and present it page-linked for verification. Right now it handles one negative covenant — <strong>the restriction on Financial Indebtedness</strong> — along with the <em>Financial Indebtedness</em> and <em>Permitted Financial Indebtedness</em> defined terms it relies on.
+    </p>
+    <p style="margin-top: 1rem; max-width: 65ch; font-size: 1.05rem; color: var(--n700);">
+      If the output is reliable enough for a lawyer to trust, the same pipeline extends to other covenants (Disposals, Negative Pledge, Information Undertakings, and so on). Your review is what decides whether — and how — we expand.
+    </p>
+
+    <div class="cols" style="margin-top: 2rem;">
+      <div class="card">
+        <h3>You give it</h3>
+        <p>A facility agreement as a PDF. Up to a few hundred pages.</p>
+      </div>
+      <div class="card">
+        <h3>You get back</h3>
+        <p>An HTML report with the restriction clause and the defined terms it depends on (<em>Financial Indebtedness</em> and <em>Permitted Financial Indebtedness</em>) — each page-linked so you can verify before you trust.</p>
+      </div>
+    </div>
+    <div class="counter">03 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 4: Example output ───── -->
+  <section class="slide">
+    <div class="brand">Enblock</div>
+    <div class="cols">
+      <div>
+        <div class="eyebrow">Example Output · Restriction on Financial Indebtedness</div>
+        <h2>Each clause is page-linked<br>and source-verified.</h2>
+        <p style="margin-top: 1rem;">
+          The report shows you the <strong>extracted text</strong>, the <strong>page it came from</strong>, and a <span class="pill" style="background: #dcfce7; color: #15803d;">matched</span> tag confirming we located it verbatim in the source.
+        </p>
+        <div class="callout">
+          <p><strong>You always verify, never trust.</strong> Each row links to a snapshot of the actual page in the PDF — so you can confirm the extraction before relying on it.</p>
+        </div>
+      </div>
+      <div>
+        <div class="doc-preview">
+          <div class="doc-title">Definition · "Financial Indebtedness" <span style="font-size: 0.7rem; font-weight: 500; color: var(--n500); float: right;">Clause 1.1 · Page 31</span></div>
+          <div class="clause">
+            <strong>"Financial Indebtedness"</strong> means any indebtedness for or in respect of <span class="hl">moneys borrowed</span> or raised; any amount raised by acceptance under any acceptance credit facility; any amount raised pursuant to any note purchase facility...
+            <span class="badge">✓ matched</span>
+          </div>
+          <div style="border-top: 1px solid var(--n300); margin: 0.85rem 0;"></div>
+          <div class="doc-title">Restriction <span style="font-size: 0.7rem; font-weight: 500; color: var(--n500); float: right;">Clause 23.7 · Page 116</span></div>
+          <div class="clause">
+            <strong>No Obligor shall</strong> incur or allow to remain outstanding any Financial Indebtedness, other than <span class="hl">Permitted Financial Indebtedness</span>.
+            <span class="badge">✓ matched</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">04 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 5: How it works (pipeline) ───── -->
+  <section class="slide cream">
+    <div class="brand">Enblock</div>
+    <div class="eyebrow">How It Works</div>
+    <h2>Five steps, 3–5 minutes per document.</h2>
+    <p class="lede" style="margin-top: 0.5rem;">A mix of local AI (Docling, on the Colab runtime) for parsing, cloud AI (Google Gemini) for navigation, and plain Python for lifting verbatim text.</p>
+
+    <div class="pipeline">
+      <div class="pipe-step">
+        <div class="num">1</div>
+        <div class="logo" aria-label="Docling logo">
+          <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><g transform="matrix(1.07666,0,0,1.07666,-35.9018,-84.1562)"><g transform="matrix(1,0,0,1,-0.429741,55.0879)"><path d="M394.709,69.09C417.34,35.077 467.97,30.178 478.031,55.609C486.35,55.043 494.726,54.701 503.158,54.589C533.157,45.238 560.496,47.419 584.65,60.732C800.941,96.66 966.069,284.814 966.069,511.232C966.069,763.284 761.435,967.918 509.383,967.918C433.692,967.918 362.277,949.464 299.385,916.808L242.3,931.993C203.092,943.242 187.715,928.369 208.575,891.871C208.935,891.24 216.518,879.37 223.997,867.677C119.604,783.975 52.698,655.355 52.698,511.232C52.698,298.778 198.086,120.013 394.709,69.09Z" style="fill:white;"/></g><g transform="matrix(1.02317,0,0,1.02317,-11.55,-17.8333)"><path d="M284.8,894.232L179.735,783.955L130.222,645.203L125.538,504.726L185.211,385.816C209.006,322.738 249.951,278.973 302.281,248.028L406.684,203.333L413.483,175.767L436.637,152.428L451.408,153.312L457.726,183.183L485.164,165.379L526.92,159.699L557.014,177.545L612.652,211.018C679.009,226.066 740.505,264.146 797.138,325.26L862.813,423.477L891.583,560.826L883.273,683.32L814.268,809.924L734.431,894.384L644.495,926.906L497.146,954.121L361.064,940.647L284.8,894.232Z" style="fill:url(#dl_g1);"/><path d="M699.932,887.255L634.427,825.291L597.884,782.352L594.906,738.956L610.14,709.396L643.207,699.954L685,710.111L730.425,736.425L765.204,778.79L775.166,849.531L719.381,894.082L699.932,887.255Z" style="fill:url(#dl_g2);"/><path d="M311.699,713.521C189.178,639.091 164.299,526.77 191.824,394.113L135.136,476.434L122.004,547.53C143.022,614.014 174.522,676.199 225.005,730.598C210.601,754.156 201.894,776.601 197.955,798.114L245.803,841.67C247.274,812.1 254.934,783.047 270.614,754.664L311.699,713.521Z" style="fill-opacity:0.22;"/><g transform="matrix(-1,0,0,1,1022.04,2.74442)"><path d="M311.699,713.521C189.178,639.091 164.299,526.77 191.824,394.113L135.136,476.434L122.004,547.53C143.022,614.014 174.522,676.199 225.005,730.598C210.601,754.156 201.894,776.601 197.955,798.114L245.803,841.67C247.274,812.1 254.934,783.047 270.614,754.664L311.699,713.521Z" style="fill-opacity:0.22;"/></g><path d="M354.92,650.818L420.009,663.185L493.368,666.379L554.826,665.251L620.19,658.511L658.169,651.428L671.428,644.802L673.265,627.093L659.898,611.845L625.422,609.244L599.275,591.212L568.632,556.79L542.9,534.336L515.052,528.253L480.412,532.71L455.2,552.337L428.514,578.155L405.312,599.359L374.228,612.097L355.342,614.456L340.75,630.308L341.568,645.341L354.92,650.818Z" style="fill:url(#dl_g5);"/><path d="M257.168,949.32L317.434,876.747L364.928,810.6L384.1,743.934L378.759,714.719L376.844,685.849L374.836,659.954L448.734,664.2L511.462,667.602L571.339,665.091L632.796,658.836L648.232,656.882L649.937,697.808L608.105,717.702L598.45,738.594L592.286,761.642L604.743,796.309L639.595,825.803L649.872,840.757L558.219,895.152L502.124,907.569L425.781,923.496L333.29,931.298L286.269,936.907L257.168,949.32Z" style="fill:url(#dl_g6);"/><g transform="matrix(1,0,0,1.30081,-1.77636e-15,-196.488)"><path d="M374.165,685.268C463.946,706.599 553.728,707.491 643.51,688.593L641.903,653.199C549.263,671.731 459.645,672.22 373.059,654.611L374.165,685.268Z" style="fill-opacity:0.18;"/></g><path d="M459.633,571.457C476.7,536.091 530.064,535.913 553.1,568.767C520.703,551.407 489.553,552.374 459.633,571.457Z" style="fill:white;"/><path d="M355.523,264.613C500.863,170.537 720.922,238.743 793.914,420.963C766.939,382.221 735.948,354.459 697.753,346.395L717.529,332.629C698.76,318.871 676.017,318.338 651.262,324.5C652.458,313.149 659.218,304.372 674.411,299.496C642.087,284.808 617.579,286.854 596.481,296.199C597.272,283.497 606.05,275.468 620.291,270.635C589.415,264.858 564.353,268.307 544.874,280.613C546.045,269.212 550.932,258.324 561.136,248.171C517.721,254.476 493.218,265.306 483.115,279.583C477.534,266.88 477.497,254.602 487.848,243.12C439.384,250.313 421.778,262.475 410.578,275.667C407.92,266.391 407.928,258.013 411.076,250.697C389.856,252.154 372.401,258.044 355.523,264.613Z" style="fill:rgb(255,213,95);"/><path d="M348.201,622.341C395.549,653.534 622.351,660.854 661.936,616.729L677.568,633.834L667.044,650.308L557.802,667.518L498.074,670.562L446.718,666.416L391.404,658.406L348.154,652.501L340.161,637.119L348.201,622.341Z" style="fill:rgb(199,68,6);"/></g><g transform="matrix(1.02317,0,0,1.02317,-11.55,-17.8333)"><path d="M290.084,534.662C276.554,533.535 264.892,530.024 254.279,525.175C276.732,555.341 305.316,569.76 338.631,572.029L290.084,534.662Z"/><g transform="matrix(0.94177,0,0,0.94909,28.8868,3.79501)"><ellipse cx="338.022" cy="510.34" rx="88.911" ry="89.412"/></g><g transform="matrix(-1,0,0,1,1013.33,-1.15187)"><path d="M290.084,534.662C276.554,533.535 264.892,530.024 254.279,525.175C276.732,555.341 305.316,569.76 338.631,572.029L290.084,534.662Z"/></g><g transform="matrix(-0.94177,0,0,0.94909,984.44,2.64314)"><ellipse cx="338.022" cy="510.34" rx="88.911" ry="89.412"/></g><g transform="matrix(2.4586,0,0,2.5497,-444.527,-690.434)"><ellipse cx="312.566" cy="450.751" rx="10.63" ry="10.48" style="fill:white;"/></g><g transform="matrix(2.4586,0,0,2.5497,-127.75,-690.991)"><ellipse cx="312.566" cy="450.751" rx="10.63" ry="10.48" style="fill:white;"/></g><path d="M366.219,241.106C389.605,229.261 413.371,220.601 438.247,217.5C416.795,202.419 418.72,174.582 444.22,162.47C442.086,178.175 447.633,193.354 464.772,207.738C468.721,167.57 530.015,162.087 545.674,184.112C526.45,189.314 513.082,197.344 504.566,207.717C522.403,208.119 540.706,207.86 556.2,210.609L566.935,168.471C536.388,146.208 495.718,142.166 464.65,166.705C467.703,133.264 419.536,128.364 404.624,178.47L366.219,241.106Z"/></g></g><defs><linearGradient id="dl_g1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-52.3962,375.121,-375.121,-52.3962,471.134,384.463)"><stop offset="0" style="stop-color:rgb(255,176,44);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(255,73,2);stop-opacity:1"/></linearGradient><linearGradient id="dl_g2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(28.6198,-84.8913,84.8913,28.6198,647.831,831.55)"><stop offset="0" style="stop-color:rgb(255,73,2);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(255,176,44);stop-opacity:1"/></linearGradient><linearGradient id="dl_g5" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-39.3403,137.423,-137.423,-39.3403,545.523,573.246)"><stop offset="0" style="stop-color:rgb(255,200,41);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(255,73,2);stop-opacity:1"/></linearGradient><linearGradient id="dl_g6" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.01113,-68.2054,68.2054,1.01113,482.996,741.463)"><stop offset="0" style="stop-color:white;stop-opacity:1"/><stop offset="1" style="stop-color:rgb(179,179,179);stop-opacity:1"/></linearGradient></defs></svg>
+        </div>
+        <span class="tag local">Docling</span>
+        <strong>Ingest</strong>
+        <p>Docling reads the PDF and detects its structure.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="num">2</div>
+        <div class="logo" aria-label="Gemini logo">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" fill="#4285f4"/></svg>
+        </div>
+        <span class="tag cloud">Gemini</span>
+        <strong>Read TOC</strong>
+        <p>Google's Gemini vision model reads the contents pages as images.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="num">3</div>
+        <div class="logo" aria-label="Gemini logo">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" fill="#4285f4"/></svg>
+        </div>
+        <span class="tag cloud">Gemini</span>
+        <strong>Scout</strong>
+        <p>Find the pages holding each covenant.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="num">4</div>
+        <div class="logo" aria-label="Python logo">
+          <svg viewBox="0.21 -0.077 110 110" xmlns="http://www.w3.org/2000/svg"><linearGradient id="py4_a" gradientUnits="userSpaceOnUse" x1="63.8159" y1="56.6829" x2="118.4934" y2="1.8225" gradientTransform="matrix(1 0 0 -1 -53.2974 66.4321)"><stop offset="0" style="stop-color:#387EB8"/><stop offset="1" style="stop-color:#366994"/></linearGradient><path fill="url(#py4_a)" d="M55.023-0.077c-25.971,0-26.25,10.081-26.25,12.156c0,3.148,0,12.594,0,12.594h26.75v3.781 c0,0-27.852,0-37.375,0c-7.949,0-17.938,4.833-17.938,26.25c0,19.673,7.792,27.281,15.656,27.281c2.335,0,9.344,0,9.344,0 s0-9.765,0-13.125c0-5.491,2.721-15.656,15.406-15.656c15.91,0,19.971,0,26.531,0c3.902,0,14.906-1.696,14.906-14.406 c0-13.452,0-17.89,0-24.219C82.054,11.426,81.515-0.077,55.023-0.077z M40.273,8.392c2.662,0,4.813,2.15,4.813,4.813 c0,2.661-2.151,4.813-4.813,4.813s-4.813-2.151-4.813-4.813C35.46,10.542,37.611,8.392,40.273,8.392z"/><linearGradient id="py4_b" gradientUnits="userSpaceOnUse" x1="97.0444" y1="21.6321" x2="155.6665" y2="-34.5308" gradientTransform="matrix(1 0 0 -1 -53.2974 66.4321)"><stop offset="0" style="stop-color:#FFE052"/><stop offset="1" style="stop-color:#FFC331"/></linearGradient><path fill="url(#py4_b)" d="M55.397,109.923c25.959,0,26.282-10.271,26.282-12.156c0-3.148,0-12.594,0-12.594H54.897v-3.781 c0,0,28.032,0,37.375,0c8.009,0,17.938-4.954,17.938-26.25c0-23.322-10.538-27.281-15.656-27.281c-2.336,0-9.344,0-9.344,0 s0,10.216,0,13.125c0,5.491-2.631,15.656-15.406,15.656c-15.91,0-19.476,0-26.532,0c-3.892,0-14.906,1.896-14.906,14.406 c0,14.475,0,18.265,0,24.219C28.366,100.497,31.562,109.923,55.397,109.923z M70.148,101.454c-2.662,0-4.813-2.151-4.813-4.813 s2.15-4.813,4.813-4.813c2.661,0,4.813,2.151,4.813,4.813S72.809,101.454,70.148,101.454z"/></svg>
+        </div>
+        <span class="tag py">Python</span>
+        <strong>Slice</strong>
+        <p>Pull the text from those exact pages.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="num">5</div>
+        <div class="logo" aria-label="Python logo">
+          <svg viewBox="0.21 -0.077 110 110" xmlns="http://www.w3.org/2000/svg"><linearGradient id="py5_a" gradientUnits="userSpaceOnUse" x1="63.8159" y1="56.6829" x2="118.4934" y2="1.8225" gradientTransform="matrix(1 0 0 -1 -53.2974 66.4321)"><stop offset="0" style="stop-color:#387EB8"/><stop offset="1" style="stop-color:#366994"/></linearGradient><path fill="url(#py5_a)" d="M55.023-0.077c-25.971,0-26.25,10.081-26.25,12.156c0,3.148,0,12.594,0,12.594h26.75v3.781 c0,0-27.852,0-37.375,0c-7.949,0-17.938,4.833-17.938,26.25c0,19.673,7.792,27.281,15.656,27.281c2.335,0,9.344,0,9.344,0 s0-9.765,0-13.125c0-5.491,2.721-15.656,15.406-15.656c15.91,0,19.971,0,26.531,0c3.902,0,14.906-1.696,14.906-14.406 c0-13.452,0-17.89,0-24.219C82.054,11.426,81.515-0.077,55.023-0.077z M40.273,8.392c2.662,0,4.813,2.15,4.813,4.813 c0,2.661-2.151,4.813-4.813,4.813s-4.813-2.151-4.813-4.813C35.46,10.542,37.611,8.392,40.273,8.392z"/><linearGradient id="py5_b" gradientUnits="userSpaceOnUse" x1="97.0444" y1="21.6321" x2="155.6665" y2="-34.5308" gradientTransform="matrix(1 0 0 -1 -53.2974 66.4321)"><stop offset="0" style="stop-color:#FFE052"/><stop offset="1" style="stop-color:#FFC331"/></linearGradient><path fill="url(#py5_b)" d="M55.397,109.923c25.959,0,26.282-10.271,26.282-12.156c0-3.148,0-12.594,0-12.594H54.897v-3.781 c0,0,28.032,0,37.375,0c8.009,0,17.938-4.954,17.938-26.25c0-23.322-10.538-27.281-15.656-27.281c-2.336,0-9.344,0-9.344,0 s0,10.216,0,13.125c0,5.491-2.631,15.656-15.406,15.656c-15.91,0-19.476,0-26.532,0c-3.892,0-14.906,1.896-14.906,14.406 c0,14.475,0,18.265,0,24.219C28.366,100.497,31.562,109.923,55.397,109.923z M70.148,101.454c-2.662,0-4.813-2.151-4.813-4.813 s2.15-4.813,4.813-4.813c2.661,0,4.813,2.151,4.813,4.813S72.809,101.454,70.148,101.454z"/></svg>
+        </div>
+        <span class="tag py">Python</span>
+        <strong>Extract</strong>
+        <p>Lift verbatim text into the report.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 2rem; max-width: 75ch;">
+      <p><strong>Why this matters for you:</strong> AI is only used to find which pages to read — the actual clause text is lifted character-for-character from the PDF, not paraphrased. The <span class="pill" style="background: #fef3c7; color: #92400e;">Gemini</span> steps send page images / text to Google; the <span class="pill" style="background: #dbeafe; color: #1e40af;">Docling</span> and <span class="pill" style="background: var(--teal-100); color: var(--primary);">Python</span> steps run on the Colab machine. See the next slide for what this means for your document.</p>
+    </div>
+    <div class="counter">05 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 6: The Spec (tunability) ───── -->
+  <section class="slide cream">
+    <div class="brand">Enblock</div>
+    <div class="cols">
+      <div>
+        <div class="eyebrow">Under the Hood · Tunability</div>
+        <h2>The extraction rules<br>live in plain text.</h2>
+        <p style="margin-top: 1rem; max-width: 52ch;">
+          Every extraction is driven by a short YAML "spec" — a human-readable file listing the phrases the tool searches for. The Scout (Step 3) uses the search terms; the structural parser (Step 5) uses the literal definition openings and restriction heading.
+        </p>
+        <p style="margin-top: 1rem; max-width: 52ch;">
+          If an agreement uses non-standard wording, the spec is editable without touching code. Today there's one spec — for the restriction on Financial Indebtedness.
+        </p>
+        <div class="callout">
+          <p><strong>What this means for you:</strong> the rules driving the extraction are visible, not hidden inside the model. A copy of the active spec is included at the bottom of every report you generate, so you can audit exactly what was searched for.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="mockup">
+          <div class="titlebar">
+            <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+            <div class="url">aplma/specs/financial_indebtedness.yaml</div>
+          </div>
+          <div class="body" style="background: #0f0f23; padding: 1.1rem 1.3rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; line-height: 1.55;">
+<pre style="margin: 0; background: transparent; padding: 0; color: #c9d1d9; white-space: pre-wrap;"><span style="color: #6b7280;"># Tells the tool how to find the
+# "Financial Indebtedness" clauses.
+# Edit the lists below if a new
+# agreement uses different wording.</span>
+
+<span style="color: #87cccc;">search_terms</span>:
+  - <span style="color: #a3e635;">"Financial Indebtedness"</span>
+  - <span style="color: #a3e635;">"Permitted Financial Indebtedness"</span>
+
+<span style="color: #87cccc;">definition_openings</span>:
+  <span style="color: #87cccc;">financial_indebtedness</span>:
+    - <span style="color: #a3e635;">"Financial Indebtedness means"</span>
+  <span style="color: #87cccc;">permitted_financial_indebtedness</span>:
+    - <span style="color: #a3e635;">"Permitted Financial Indebtedness means"</span>
+
+<span style="color: #87cccc;">restriction_heading</span>:
+  - <span style="color: #a3e635;">"Financial Indebtedness"</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">06 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 7: Tech stack ───── -->
+  <section class="slide dark">
+    <div class="brand">Enblock</div>
+    <div class="eyebrow">Tech Stack</div>
+    <h2>What's powering this.</h2>
+    <p class="lede">Three pieces, behind the scenes. You don't interact with these directly.</p>
+
+    <div class="stack" style="max-width: 50rem;">
+      <div class="tech-row" style="background: rgba(255,255,255,0.04); border-color: rgba(135, 204, 204, 0.2);">
+        <div class="icon" style="background: rgba(135, 204, 204, 0.15); color: var(--teal-300);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <strong style="color: var(--n100);">Docling</strong>
+          <p style="color: var(--n400);">Open-source library that reads the PDF and detects its structure (headings, clauses, tables).</p>
+        </div>
+      </div>
+      <div class="tech-row" style="background: rgba(255,255,255,0.04); border-color: rgba(135, 204, 204, 0.2);">
+        <div class="icon" style="background: rgba(135, 204, 204, 0.15); color: var(--teal-300);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div>
+          <strong style="color: var(--n100);">Google Gemini</strong>
+          <p style="color: var(--n400);">Google's AI model. We use it for two narrow jobs: reading the TOC, and identifying which pages contain each covenant. Requires an API key (free tier is plenty).</p>
+        </div>
+      </div>
+      <div class="tech-row" style="background: rgba(255,255,255,0.04); border-color: rgba(135, 204, 204, 0.2);">
+        <div class="icon" style="background: rgba(135, 204, 204, 0.15); color: var(--teal-300);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div>
+          <strong style="color: var(--n100);">Python (in Google Colab)</strong>
+          <p style="color: var(--n400);">A free, browser-based notebook environment from Google. You don't install anything — the code runs on Google's servers.</p>
+        </div>
+      </div>
+    </div>
+    <div class="counter">07 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 7: Data handling / privacy warning ───── -->
+  <section class="slide cream">
+    <div class="brand">Enblock</div>
+    <div class="cols">
+      <div>
+        <div class="eyebrow" style="color: #b45309;">Before You Upload — Please Read</div>
+        <h2 style="color: var(--navy);">Your document will leave your computer.</h2>
+        <p style="margin-top: 1rem; max-width: 55ch;">
+          This is a prototype tool. It runs in Google's infrastructure and uses Google's Gemini API. That means parts of your facility agreement are sent to Google during processing.
+        </p>
+
+        <div style="margin-top: 1.5rem; padding: 1.1rem 1.3rem; background: #fef3c7; border-left: 4px solid #b45309; border-radius: 0 8px 8px 0;">
+          <p style="color: #78350f; font-size: 1rem;"><strong>Use sample, anonymised, or non-confidential documents</strong> while evaluating the tool. For real client matters, check first with your firm's data-handling and confidentiality policies — particularly any rules about sending client documents to third-party cloud services.</p>
+        </div>
+
+        <p style="margin-top: 1.25rem; font-size: 0.95rem; color: var(--n600);">
+          Google's terms for the free Gemini API and Colab apply. No data ever flows to Enblock from this tool.
+        </p>
+      </div>
+
+      <div>
+        <div style="background: white; border-radius: 12px; border: 1px solid var(--n300); padding: 1.5rem 1.75rem;">
+          <div style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--n500); margin-bottom: 1rem;">What goes where</div>
+
+          <div style="display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 1.1rem;">
+            <div style="flex-shrink: 0; width: 32px; height: 32px; border-radius: 8px; background: #dbeafe; color: #1e40af; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">1</div>
+            <div>
+              <strong style="color: var(--navy); font-size: 1rem;">PDF upload → Colab runtime</strong>
+              <p style="font-size: 0.9rem; color: var(--n600); line-height: 1.5;">Your file is uploaded to a temporary Google Colab virtual machine. It's wiped when the session ends.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 1.1rem;">
+            <div style="flex-shrink: 0; width: 32px; height: 32px; border-radius: 8px; background: #fef3c7; color: #92400e; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">2</div>
+            <div>
+              <strong style="color: var(--navy); font-size: 1rem;">TOC pages → Gemini API</strong>
+              <p style="font-size: 0.9rem; color: var(--n600); line-height: 1.5;">Images of the contents pages are sent to Google's Gemini servers for text extraction.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 1.1rem;">
+            <div style="flex-shrink: 0; width: 32px; height: 32px; border-radius: 8px; background: #fef3c7; color: #92400e; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">3</div>
+            <div>
+              <strong style="color: var(--navy); font-size: 1rem;">TOC text + search results → Gemini API</strong>
+              <p style="font-size: 0.9rem; color: var(--n600); line-height: 1.5;">A short text prompt with the contents listing and heading matches is sent to Gemini to identify page ranges. The full document text is <em>not</em> sent.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
+            <div style="flex-shrink: 0; width: 32px; height: 32px; border-radius: 8px; background: var(--teal-100); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">4</div>
+            <div>
+              <strong style="color: var(--navy); font-size: 1rem;">Extraction → stays local</strong>
+              <p style="font-size: 0.9rem; color: var(--n600); line-height: 1.5;">All clause extraction and the final HTML report happens on the Colab runtime — no further calls to Google.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">08 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 8: Setup overview ───── -->
+  <section class="slide teal">
+    <div class="brand">Enblock</div>
+    <div class="eyebrow">Setup</div>
+    <h1>Three things to do, once.</h1>
+    <p class="lede" style="max-width: 55ch; margin-top: 1rem;">
+      Once you've done these, you can run the tool on as many agreements as you like without setting anything up again.
+    </p>
+
+    <ul class="checklist" style="margin-top: 2.5rem; max-width: 60rem;">
+      <li>
+        <span class="dot" style="background: white; color: var(--primary);">1</span>
+        <div>
+          <strong style="color: white; font-size: 1.3rem;">Get a Gemini API key</strong>
+          <p style="color: var(--teal-100); margin-top: 0.2rem;">From Google AI Studio. Free. Takes about 90 seconds.</p>
+        </div>
+      </li>
+      <li>
+        <span class="dot" style="background: white; color: var(--primary);">2</span>
+        <div>
+          <strong style="color: white; font-size: 1.3rem;">Open the Colab notebook</strong>
+          <p style="color: var(--teal-100); margin-top: 0.2rem;">Open the Colab link (shown later in this deck) — one click to launch.</p>
+        </div>
+      </li>
+      <li>
+        <span class="dot" style="background: white; color: var(--primary);">3</span>
+        <div>
+          <strong style="color: white; font-size: 1.3rem;">Save your API key as a Colab secret</strong>
+          <p style="color: var(--teal-100); margin-top: 0.2rem;">Paste it into a secure field. Colab remembers it next time.</p>
+        </div>
+      </li>
+    </ul>
+    <div class="counter">09 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 8: Get API key — part A ───── -->
+  <section class="slide">
+    <div class="brand">Enblock</div>
+    <div class="cols">
+      <div>
+        <div class="eyebrow">Step 1A · Get Your API Key</div>
+        <h2>Go to Google AI Studio.</h2>
+
+        <ul class="checklist">
+          <li>
+            <span class="dot">a</span>
+            <div>
+              <p>Open <strong style="color: var(--primary);">aistudio.google.com</strong> in your browser.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">b</span>
+            <div>
+              <p>Sign in with your Google account. (If you don't have one, you can create one in 30 seconds.)</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">c</span>
+            <div>
+              <p>Click <strong>"Get API key"</strong> in the left-hand menu.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="mockup">
+          <div class="titlebar">
+            <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+            <div class="url">aistudio.google.com</div>
+          </div>
+          <div class="body" style="display: flex; gap: 1rem; padding: 0;">
+            <div style="width: 200px; background: var(--n200); padding: 1rem 0.85rem; border-right: 1px solid var(--n300);">
+              <div style="font-size: 0.75rem; color: var(--n500); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.85rem;">Google AI Studio</div>
+              <div style="padding: 0.5rem 0.6rem; font-size: 0.85rem; color: var(--n700);">Prompts</div>
+              <div style="padding: 0.5rem 0.6rem; font-size: 0.85rem; color: var(--n700);">Library</div>
+              <div style="padding: 0.5rem 0.6rem; font-size: 0.85rem; color: var(--n700);">Models</div>
+              <div style="padding: 0.5rem 0.6rem; font-size: 0.85rem; background: var(--teal-100); color: var(--primary); border-radius: 6px; font-weight: 600; position: relative;">
+                Get API key
+                <div style="position: absolute; inset: -4px; border: 3px solid var(--teal-400); border-radius: 10px; animation: pulse 1.6s ease-in-out infinite;"></div>
+              </div>
+              <div style="padding: 0.5rem 0.6rem; font-size: 0.85rem; color: var(--n700);">Documentation</div>
+            </div>
+            <div style="flex: 1; padding: 1rem; color: var(--n500); font-size: 0.85rem;">
+              Sign in with Google to continue
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">10 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 9: Get API key — part B ───── -->
+  <section class="slide cream">
+    <div class="brand">Enblock</div>
+    <div class="cols">
+      <div>
+        <div class="eyebrow">Step 1B · Get Your API Key</div>
+        <h2>Create and copy the key.</h2>
+
+        <ul class="checklist">
+          <li>
+            <span class="dot">d</span>
+            <div>
+              <p>Click <strong>"Create API key"</strong>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">e</span>
+            <div>
+              <p>Pick any Google Cloud project when prompted — the default is fine.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">f</span>
+            <div>
+              <p>You'll see a long string starting with <code style="background: var(--n200); padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.9rem;">AIza...</code> — click <strong>Copy</strong>.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Treat this like a password.</strong> Don't email it, don't paste it into chat. We'll save it securely inside Colab in the next step.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="mockup">
+          <div class="titlebar">
+            <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+            <div class="url">aistudio.google.com/apikey</div>
+          </div>
+          <div class="body">
+            <div style="font-size: 1.1rem; font-weight: 600; color: var(--navy); margin-bottom: 1rem;">API keys</div>
+            <div class="btn-mock pulse" style="margin-bottom: 1.5rem;">+ Create API key</div>
+            <div style="margin-top: 1.5rem; padding: 1rem; border: 1px solid var(--n300); border-radius: 8px; background: var(--n200);">
+              <div style="font-size: 0.75rem; color: var(--n500); margin-bottom: 0.3rem;">Your API key</div>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <code style="flex: 1; font-family: ui-monospace, monospace; font-size: 0.85rem; color: var(--n700); background: white; padding: 0.45rem 0.6rem; border-radius: 4px; border: 1px solid var(--n300);">AIzaSyD••••••••••••••••••••••••••</code>
+                <button style="background: var(--primary); color: white; border: none; padding: 0.45rem 0.85rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">11 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 10: Open notebook ───── -->
+  <section class="slide">
+    <div class="brand">Enblock</div>
+    <div class="cols">
+      <div>
+        <div class="eyebrow">Step 2 · Open the Notebook</div>
+        <h2>Open the Colab link.</h2>
+        <p style="margin-top: 1rem;">The notebook lives in a public GitHub repo. Opening this URL launches it directly in Google Colab — a free, browser-based environment where the tool runs.</p>
+
+        <ul class="checklist">
+          <li>
+            <span class="dot">a</span>
+            <div>
+              <p>Open this URL (or click the <strong>"Open in Colab"</strong> badge in the GitHub repo's README):</p>
+              <code style="display: block; background: var(--n200); padding: 0.5rem 0.7rem; border-radius: 6px; font-family: ui-monospace, monospace; font-size: 0.78rem; color: var(--n700); margin-top: 0.4rem; word-break: break-all;">colab.research.google.com/github/gabrielchan1010/aplma/blob/main/colab_notebook.ipynb</code>
+            </div>
+          </li>
+          <li>
+            <span class="dot">b</span>
+            <div>
+              <p>You may see a banner saying <em>"This notebook was not authored by Google."</em> That's normal — click <strong>"Run anyway"</strong> when prompted.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">c</span>
+            <div>
+              <p>Sign in with the same Google account you used for AI Studio.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Heads up:</strong> the notebook may take 10-15 seconds to load the first time. That's normal.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="mockup">
+          <div class="titlebar">
+            <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+            <div class="url">colab.research.google.com</div>
+          </div>
+          <div class="body" style="padding: 0;">
+            <div style="display: flex; gap: 0; min-height: 220px;">
+              <div style="width: 56px; background: var(--n200); border-right: 1px solid var(--n300); padding: 0.85rem 0; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                <div style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--n500);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </div>
+                <div style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--n500);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
+                <div style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--n500);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                </div>
+              </div>
+              <div style="flex: 1; padding: 1rem 1.2rem;">
+                <div style="font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 0.3rem;">APLMA_Covenant_Review.ipynb</div>
+                <div style="font-size: 0.78rem; color: var(--n500); margin-bottom: 0.85rem;">Drive · Edit</div>
+                <div style="background: var(--n200); border: 1px solid var(--n300); border-radius: 6px; padding: 0.55rem 0.7rem; font-family: ui-monospace, monospace; font-size: 0.78rem; color: var(--n700); margin-bottom: 0.4rem;"># Setup</div>
+                <div style="background: var(--n200); border: 1px solid var(--n300); border-radius: 6px; padding: 0.55rem 0.7rem; font-family: ui-monospace, monospace; font-size: 0.78rem; color: var(--n700); margin-bottom: 0.4rem;">!pip install aplma</div>
+                <div style="background: var(--n200); border: 1px solid var(--n300); border-radius: 6px; padding: 0.55rem 0.7rem; font-family: ui-monospace, monospace; font-size: 0.78rem; color: var(--n700);">from aplma.report ...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">12 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 11: Add secret — part A ───── -->
+  <section class="slide cream">
+    <div class="brand">Enblock</div>
+    <div class="cols">
+      <div>
+        <div class="eyebrow">Step 3A · Add Your API Key</div>
+        <h2>Find the Secrets panel.</h2>
+        <p style="margin-top: 1rem;">In Colab, look at the strip of icons on the very left edge of the screen.</p>
+
+        <ul class="checklist">
+          <li>
+            <span class="dot">a</span>
+            <div>
+              <p>Click the <strong>key icon</strong> 🔑 on the left sidebar.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">b</span>
+            <div>
+              <p>A panel opens titled <strong>"Secrets"</strong>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">c</span>
+            <div>
+              <p>Click <strong>"+ Add new secret"</strong>.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Why secrets?</strong> Colab stores your API key in a private vault tied to your Google account. It never appears in the notebook itself — so even if you share the notebook later, the key stays with you.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="colab-sidebar">
+          <div class="rail">
+            <div class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+            <div class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <div class="icon active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
+            <div class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+          </div>
+          <div class="panel">
+            <h4>Secrets</h4>
+            <p style="font-size: 0.82rem; color: var(--n600); margin-bottom: 1rem;">Store API keys, tokens and other private values. Securely accessible from the active notebook.</p>
+            <button style="background: var(--primary); color: white; border: none; padding: 0.5rem 0.9rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">+ Add new secret</button>
+            <div style="margin-top: 1rem; padding: 0.6rem 0.7rem; background: var(--n200); border-radius: 6px; font-size: 0.78rem; color: var(--n600);">
+              You have no secrets yet.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">13 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 12: Add secret — part B ───── -->
+  <section class="slide">
+    <div class="brand">Enblock</div>
+    <div class="cols">
+      <div>
+        <div class="eyebrow">Step 3B · Add Your API Key</div>
+        <h2>Name it, paste it, switch it on.</h2>
+
+        <ul class="checklist">
+          <li>
+            <span class="dot">d</span>
+            <div>
+              <p>In the <strong>Name</strong> field, type exactly:<br><code style="background: var(--n200); padding: 0.15rem 0.5rem; border-radius: 4px; font-family: ui-monospace, monospace; font-size: 0.95rem; margin-top: 0.4rem; display: inline-block;">GEMINI_API_KEY</code></p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">e</span>
+            <div>
+              <p>In the <strong>Value</strong> field, paste the <code style="background: var(--n200); padding: 0.1rem 0.4rem; border-radius: 4px;">AIza...</code> key you copied earlier.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">f</span>
+            <div>
+              <p>Toggle <strong>"Notebook access"</strong> ON. (This is the most-missed step — without it, the notebook can't read the key.)</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>That's it for setup.</strong> You only do this once. Colab remembers it for every future session.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="colab-sidebar">
+          <div class="rail">
+            <div class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+            <div class="icon active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
+          </div>
+          <div class="panel">
+            <h4>Secrets</h4>
+            <div class="secret-row" style="grid-template-columns: 22px 1fr; background: var(--teal-100); border: 1px solid var(--teal-300);">
+              <div class="toggle"></div>
+              <code style="color: var(--primary); font-weight: 600;">GEMINI_API_KEY</code>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--n600); margin-top: 0.85rem; margin-bottom: 0.3rem;">Name</div>
+            <div class="input-mock" style="margin: 0;">GEMINI_API_KEY</div>
+            <div style="font-size: 0.75rem; color: var(--n600); margin-top: 0.6rem; margin-bottom: 0.3rem;">Value</div>
+            <div class="input-mock" style="margin: 0;">AIzaSyD••••••••••••••••••••••••••</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem;">
+              <span style="font-size: 0.85rem; color: var(--navy); font-weight: 600;">Notebook access</span>
+              <div style="width: 36px; height: 20px; background: var(--primary); border-radius: 10px; position: relative;">
+                <div style="position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; right: 2px; top: 2px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">14 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 14: GPU runtime tip ───── -->
+  <section class="slide cream">
+    <div class="brand">Enblock</div>
+    <div class="cols">
+      <div>
+        <div class="eyebrow">Optional · Speed Tip</div>
+        <h2>Switch to a free GPU<br>for faster runs.</h2>
+        <p style="margin-top: 1rem; max-width: 50ch;">
+          Docling's PDF parsing (Step 1) runs much faster on a GPU. Google Colab gives you a free T4 GPU — switching takes 15 seconds and roughly halves the total runtime on large agreements.
+        </p>
+
+        <ul class="checklist">
+          <li>
+            <span class="dot">a</span>
+            <div>
+              <p>In the top menu, click <strong>Runtime → Change runtime type</strong>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">b</span>
+            <div>
+              <p>Under <strong>Hardware accelerator</strong>, select <strong>T4 GPU</strong>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot">c</span>
+            <div>
+              <p>Click <strong>Save</strong>. The runtime will reconnect — that's normal.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Optional, not required.</strong> The default CPU runtime works fine, just slower. The free GPU has a daily usage cap, so save it for the documents that matter.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="mockup">
+          <div class="titlebar">
+            <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+            <div class="url">colab.research.google.com</div>
+          </div>
+          <div class="body" style="padding: 1.5rem 1.75rem;">
+            <div style="font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 1.25rem;">Change runtime type</div>
+
+            <div style="font-size: 0.78rem; color: var(--n600); margin-bottom: 0.35rem; font-weight: 600;">Runtime type</div>
+            <div style="background: var(--n200); border: 1px solid var(--n300); border-radius: 6px; padding: 0.5rem 0.7rem; font-size: 0.85rem; color: var(--n700); margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+              Python 3
+              <span style="color: var(--n500);">▾</span>
+            </div>
+
+            <div style="font-size: 0.78rem; color: var(--n600); margin-bottom: 0.35rem; font-weight: 600;">Hardware accelerator</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin-bottom: 0.4rem;">
+              <div style="background: white; border: 1px solid var(--n300); border-radius: 6px; padding: 0.55rem 0.4rem; font-size: 0.8rem; color: var(--n700); text-align: center;">CPU</div>
+              <div style="background: var(--teal-100); border: 2px solid var(--primary); border-radius: 6px; padding: 0.5rem 0.4rem; font-size: 0.8rem; color: var(--primary); font-weight: 700; text-align: center; position: relative;">
+                T4 GPU
+                <div style="position: absolute; inset: -4px; border: 3px solid var(--teal-400); border-radius: 9px; animation: pulse 1.6s ease-in-out infinite;"></div>
+              </div>
+              <div style="background: white; border: 1px solid var(--n300); border-radius: 6px; padding: 0.55rem 0.4rem; font-size: 0.8rem; color: var(--n500); text-align: center;">v2-8 TPU</div>
+            </div>
+            <div style="font-size: 0.72rem; color: var(--n500); margin-bottom: 1rem;">Free tier — subject to availability.</div>
+
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.25rem;">
+              <button style="background: white; color: var(--n700); border: 1px solid var(--n300); padding: 0.45rem 0.95rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Cancel</button>
+              <button style="background: var(--primary); color: white; border: none; padding: 0.45rem 0.95rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">15 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 15: Running it ───── -->
+  <section class="slide teal">
+    <div class="brand">Enblock</div>
+    <div class="eyebrow">Step 5 · Run It</div>
+    <h1>Now the easy part.</h1>
+
+    <div class="cols" style="margin-top: 2rem;">
+      <div>
+        <ul class="checklist">
+          <li>
+            <span class="dot" style="background: white; color: var(--primary);">a</span>
+            <div>
+              <p style="color: white;"><strong style="color: white;">Click Runtime → Run all</strong> in the top menu.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot" style="background: white; color: var(--primary);">b</span>
+            <div>
+              <p style="color: white;"><strong style="color: white;">Upload your PDF when prompted.</strong> The setup cell will show a <em>"Choose Files"</em> button — click it and pick your facility agreement.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot" style="background: white; color: var(--primary);">c</span>
+            <div>
+              <p style="color: white;"><strong style="color: white;">Wait 3–5 minutes.</strong> The notebook will show each step's output as it goes.</p>
+            </div>
+          </li>
+          <li>
+            <span class="dot" style="background: white; color: var(--primary);">d</span>
+            <div>
+              <p style="color: white;"><strong style="color: white;">The HTML report downloads automatically</strong> once the last cell finishes — check your browser's Downloads.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div class="mockup" style="background: var(--navy-900);">
+          <div class="titlebar" style="background: var(--navy-800); border-bottom-color: var(--navy);">
+            <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+            <div class="url" style="background: var(--navy); color: var(--teal-200); border: none;">Runtime · Running all cells…</div>
+          </div>
+          <div class="body" style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.85rem; color: var(--teal-200); padding: 1.25rem;">
+            <div style="margin-bottom: 0.4rem;">✓ Step 1 · Ingested agreement.pdf</div>
+            <div style="margin-bottom: 0.4rem;">✓ Step 2 · Extracted TOC (47 clauses)</div>
+            <div style="margin-bottom: 0.4rem;">✓ Step 3 · Scout located pages 26-43, 116-117</div>
+            <div style="margin-bottom: 0.4rem;">✓ Step 4 · Sliced 19 pages</div>
+            <div style="margin-bottom: 0.4rem;">✓ Step 5 · Extracted restriction + defined terms</div>
+            <div style="color: var(--teal-300); margin-top: 0.85rem; font-weight: 600;">→ review_report.html ready</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="counter">16 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+  <!-- ───── Slide 14: Troubleshooting / closing ───── -->
+  <section class="slide dark">
+    <div class="brand">Enblock</div>
+    <div class="eyebrow">If Something Goes Wrong</div>
+    <h2>Three common hiccups.</h2>
+    <p class="lede">If you see one of these, here's the fix.</p>
+
+    <div class="stack" style="max-width: 60rem; margin-top: 2rem;">
+      <div class="tech-row" style="background: rgba(255,255,255,0.04); border-color: rgba(135, 204, 204, 0.2); align-items: flex-start;">
+        <div class="icon" style="background: rgba(135, 204, 204, 0.15); color: var(--teal-300); margin-top: 0.2rem;">!</div>
+        <div>
+          <strong style="color: var(--n100);">"GEMINI_API_KEY not set"</strong>
+          <p style="color: var(--n400);">Your secret's <em>Notebook access</em> toggle is off. Go back to the key icon on the left, find your secret, and switch it on.</p>
+        </div>
+      </div>
+      <div class="tech-row" style="background: rgba(255,255,255,0.04); border-color: rgba(135, 204, 204, 0.2); align-items: flex-start;">
+        <div class="icon" style="background: rgba(135, 204, 204, 0.15); color: var(--teal-300); margin-top: 0.2rem;">!</div>
+        <div>
+          <strong style="color: var(--n100);">"Runtime disconnected"</strong>
+          <p style="color: var(--n400);">Colab idles out after ~90 minutes. Just click <strong>Reconnect</strong> in the top-right and run all cells again.</p>
+        </div>
+      </div>
+      <div class="tech-row" style="background: rgba(255,255,255,0.04); border-color: rgba(135, 204, 204, 0.2); align-items: flex-start;">
+        <div class="icon" style="background: rgba(135, 204, 204, 0.15); color: var(--teal-300); margin-top: 0.2rem;">!</div>
+        <div>
+          <strong style="color: var(--n100);">"The extraction looks wrong"</strong>
+          <p style="color: var(--n400);">The report always shows source-page snapshots — check those. If the tool fetched the wrong pages, send me the PDF and I'll tune the spec for that agreement style.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(135, 204, 204, 0.2); display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+      <div style="color: var(--teal-200); font-size: 1.05rem;">
+        Questions, weird outputs, or feedback — get in touch.<br>
+        <a href="mailto:info@enblock.net" style="color: var(--teal-300); text-decoration: none; font-weight: 600; font-size: 1.15rem; letter-spacing: 0.01em;">info@enblock.net</a>
+      </div>
+      <svg width="146" height="40" viewBox="0 0 122 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+        <path d="M51.76 25.24C50.96 25.24 50.2467 25.1133 49.62 24.86C48.9933 24.5933 48.46 24.2267 48.02 23.76C47.5933 23.28 47.2667 22.7 47.04 22.02C46.8267 21.34 46.72 20.58 46.72 19.74C46.72 18.9133 46.8267 18.1667 47.04 17.5C47.2533 16.82 47.5667 16.24 47.98 15.76C48.4067 15.28 48.9267 14.9133 49.54 14.66C50.1533 14.3933 50.8533 14.26 51.64 14.26C52.5067 14.26 53.2467 14.4067 53.86 14.7C54.4867 14.9933 54.9933 15.3867 55.38 15.88C55.78 16.3733 56.0667 16.9467 56.24 17.6C56.4267 18.24 56.52 18.9133 56.52 19.62V20.5H49.78V20.66C49.78 21.3533 49.9667 21.9067 50.34 22.32C50.7133 22.72 51.3 22.92 52.1 22.92C52.7133 22.92 53.2133 22.8 53.6 22.56C53.9867 22.3067 54.3467 22.0067 54.68 21.66L56.16 23.5C55.6933 24.0467 55.08 24.4733 54.32 24.78C53.5733 25.0867 52.72 25.24 51.76 25.24ZM51.7 16.44C51.1 16.44 50.6267 16.64 50.28 17.04C49.9467 17.4267 49.78 17.9467 49.78 18.6V18.76H53.46V18.58C53.46 17.94 53.3133 17.4267 53.02 17.04C52.74 16.64 52.3 16.44 51.7 16.44ZM58.1105 25V14.5H61.0705V16.28H61.1905C61.3771 15.7333 61.7038 15.26 62.1705 14.86C62.6371 14.46 63.2838 14.26 64.1105 14.26C65.1905 14.26 66.0038 14.62 66.5505 15.34C67.1105 16.06 67.3905 17.0867 67.3905 18.42V25H64.4305V18.66C64.4305 17.98 64.3238 17.48 64.1105 17.16C63.8971 16.8267 63.5171 16.66 62.9705 16.66C62.7305 16.66 62.4971 16.6933 62.2705 16.76C62.0438 16.8133 61.8371 16.9067 61.6505 17.04C61.4771 17.1733 61.3371 17.34 61.2305 17.54C61.1238 17.7267 61.0705 17.9467 61.0705 18.2V25H58.1105ZM69.5245 10.2H72.4845V16.26H72.5845C72.7312 15.6733 73.0645 15.1933 73.5845 14.82C74.1179 14.4467 74.7245 14.26 75.4045 14.26C76.7379 14.26 77.7445 14.7267 78.4245 15.66C79.1045 16.5933 79.4445 17.9533 79.4445 19.74C79.4445 21.5267 79.1045 22.8933 78.4245 23.84C77.7445 24.7733 76.7379 25.24 75.4045 25.24C75.0579 25.24 74.7312 25.1867 74.4245 25.08C74.1179 24.9867 73.8379 24.8533 73.5845 24.68C73.3445 24.4933 73.1379 24.28 72.9645 24.04C72.7912 23.7867 72.6645 23.52 72.5845 23.24H72.4845V25H69.5245V10.2ZM74.4245 22.84C74.9845 22.84 75.4445 22.6467 75.8045 22.26C76.1779 21.86 76.3645 21.3267 76.3645 20.66V18.84C76.3645 18.1733 76.1779 17.6467 75.8045 17.26C75.4445 16.86 74.9845 16.66 74.4245 16.66C73.8645 16.66 73.3979 16.8 73.0245 17.08C72.6645 17.3467 72.4845 17.72 72.4845 18.2V21.3C72.4845 21.78 72.6645 22.16 73.0245 22.44C73.3979 22.7067 73.8645 22.84 74.4245 22.84ZM84.1325 25C83.1192 25 82.3725 24.7533 81.8925 24.26C81.4258 23.7667 81.1925 23.0533 81.1925 22.12V10.2H84.1525V22.7H85.4725V25H84.1325ZM91.0072 25.24C90.2339 25.24 89.5405 25.1133 88.9272 24.86C88.3272 24.6067 87.8139 24.24 87.3872 23.76C86.9739 23.28 86.6539 22.7 86.4272 22.02C86.2005 21.34 86.0872 20.58 86.0872 19.74C86.0872 18.9 86.2005 18.14 86.4272 17.46C86.6539 16.78 86.9739 16.2067 87.3872 15.74C87.8139 15.26 88.3272 14.8933 88.9272 14.64C89.5405 14.3867 90.2339 14.26 91.0072 14.26C91.7805 14.26 92.4672 14.3867 93.0672 14.64C93.6805 14.8933 94.1939 15.26 94.6072 15.74C95.0339 16.2067 95.3605 16.78 95.5872 17.46C95.8139 18.14 95.9272 18.9 95.9272 19.74C95.9272 20.58 95.8139 21.34 95.5872 22.02C95.3605 22.7 95.0339 23.28 94.6072 23.76C94.1939 24.24 93.6805 24.6067 93.0672 24.86C92.4672 25.1133 91.7805 25.24 91.0072 25.24ZM91.0072 22.9C91.5939 22.9 92.0472 22.72 92.3672 22.36C92.6872 22 92.8472 21.4867 92.8472 20.82V18.68C92.8472 18.0133 92.6872 17.5 92.3672 17.14C92.0472 16.78 91.5939 16.6 91.0072 16.6C90.4205 16.6 89.9672 16.78 89.6472 17.14C89.3272 17.5 89.1672 18.0133 89.1672 18.68V20.82C89.1672 21.4867 89.3272 22 89.6472 22.36C89.9672 22.72 90.4205 22.9 91.0072 22.9ZM101.776 25.24C100.99 25.24 100.29 25.1133 99.6763 24.86C99.0629 24.5933 98.5496 24.2267 98.1363 23.76C97.7229 23.28 97.4096 22.7 97.1963 22.02C96.9829 21.34 96.8763 20.58 96.8763 19.74C96.8763 18.9 96.9829 18.1467 97.1963 17.48C97.4096 16.8 97.7229 16.22 98.1363 15.74C98.5496 15.26 99.0629 14.8933 99.6763 14.64C100.29 14.3867 100.99 14.26 101.776 14.26C102.843 14.26 103.73 14.5 104.436 14.98C105.156 15.46 105.67 16.1333 105.976 17L103.576 18.04C103.483 17.64 103.29 17.3 102.996 17.02C102.703 16.74 102.296 16.6 101.776 16.6C101.176 16.6 100.723 16.8 100.416 17.2C100.11 17.5867 99.9563 18.1133 99.9563 18.78V20.74C99.9563 21.4067 100.11 21.9333 100.416 22.32C100.723 22.7067 101.176 22.9 101.776 22.9C102.31 22.9 102.73 22.76 103.036 22.48C103.356 22.1867 103.59 21.8067 103.736 21.34L106.036 22.34C105.69 23.34 105.15 24.0733 104.416 24.54C103.696 25.0067 102.816 25.24 101.776 25.24ZM107.368 10.2H110.328V18.94H110.448L111.748 17L113.848 14.5H117.128L113.628 18.52L117.528 25H114.008L111.648 20.56L110.328 22.04V25H107.368V10.2Z" fill="#fcfcfc"/>
+        <path d="M13.76 6.39V0.86L3.23 6.39V13.63L0.52 16.21V17.79L3.23 20.19V26.99L13.76 32.52V28.06L7.4 24.5V18.47L5.65 17L7.4 15.44V9L13.76 6.39Z" stroke="#fcfcfc" stroke-width="1.04"/>
+        <path d="M22.48 6.39V0.86L32.78 6.39V13.63L35.62 16.21V17.79L32.78 20.19V26.99L22.48 32.52V28.06L28.58 24.5V18.47L30.35 17L28.58 15.44V9L22.48 6.39Z" stroke="#fcfcfc" stroke-width="1.04"/>
+      </svg>
+    </div>
+    <div class="counter">17 / 17</div>
+    <div class="nav">
+      <button onclick="prev()">‹</button>
+      <button onclick="next()">›</button>
+    </div>
+  </section>
+
+</div>
+
+<div class="kbd-hint">
+  <span class="hint-kbd">Use <kbd>←</kbd> <kbd>→</kbd> to navigate</span>
+  <span class="hint-touch">Swipe ← → to navigate</span>
+</div>
+
+<style>
+.hint-touch { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .hint-kbd { display: none; }
+  .hint-touch { display: inline; }
+}
+</style>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const progress = document.getElementById('progress');
+let current = 0;
+
+function show(i) {
+  slides[current].classList.remove('active');
+  current = Math.max(0, Math.min(slides.length - 1, i));
+  slides[current].classList.add('active');
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+  document.body.style.background = slides[current].classList.contains('dark') || slides[current].classList.contains('teal')
+    ? 'var(--navy-900)' : '#faf9f6';
+}
+
+function next() { show(current + 1); }
+function prev() { show(current - 1); }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+  if (e.key === 'Home') { e.preventDefault(); show(0); }
+  if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+});
+
+// Touch swipe support
+let touchStartX = 0, touchStartY = 0, touchStartT = 0;
+const deck = document.getElementById('deck');
+deck.addEventListener('touchstart', (e) => {
+  const t = e.changedTouches[0];
+  touchStartX = t.clientX;
+  touchStartY = t.clientY;
+  touchStartT = Date.now();
+}, { passive: true });
+deck.addEventListener('touchend', (e) => {
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touchStartX;
+  const dy = t.clientY - touchStartY;
+  const dt = Date.now() - touchStartT;
+  // Only register as a swipe if horizontal motion dominates and it was quick-ish.
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5 && dt < 600) {
+    if (dx < 0) next(); else prev();
+  }
+}, { passive: true });
+
+show(0);
+</script>
+
+</body>
+</html>

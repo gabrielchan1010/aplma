@@ -99,6 +99,7 @@ class ReviewSession:
     structural_extraction_summary: str = ""
     rule: BaseModel | None = None
     extract_error: Exception | None = None
+    spec_yaml: str = ""
 
     @property
     def failed_stage(self) -> str | None:
@@ -324,6 +325,7 @@ def build_sessions(
         session = run_structural_extraction(
             doc, toc, scout, slice_, spec, spec_name=spec_name
         )
+        session.spec_yaml = Path(spec_path).read_text(encoding="utf-8")
         sessions.append(session)
     return sessions
 

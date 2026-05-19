@@ -122,7 +122,7 @@ body {
   color: var(--accent); letter-spacing: .04em;
   text-transform: uppercase; margin-bottom: .35rem;
 }
-.rule-body pre.verbatim {
+.rule-body pre.clause-text {
   font: 400 .95rem/1.55 var(--serif);
   color: var(--ink);
   background: transparent; border: none; padding: 0; margin: 0;
@@ -165,7 +165,7 @@ body {
   font: 700 .68rem/1 var(--sans);
   letter-spacing: .04em; text-transform: uppercase;
 }
-.pill.verbatim    { background: #dcfce7; color: #15803d; }
+.pill.matched     { background: #dcfce7; color: #15803d; }
 .pill.paraphrased { background: #fef3c7; color: #92400e; }
 .pill.ungrounded  { background: #fee2e2; color: #b91c1c; }
 .pill .icon { font-size: .85rem; }
@@ -457,7 +457,7 @@ def _clean_display(text: str) -> str:
 
     Runs of whitespace (often introduced by justified-text layout in the PDF,
     e.g. `'(c) any  amount  raised  pursuant to'`) collapse to single spaces.
-    Preserves the underlying verbatim model field — this is *only* applied
+    Preserves the underlying matched model field — this is *only* applied
     when rendering text to the lawyer's view.
     """
     if not text:
@@ -496,16 +496,16 @@ def _note(inner_html: str, error: bool = False) -> str:
 def _grounding_pill(g: Any) -> str:
     if g is None:
         return '<span class="pill ungrounded"><span class="icon">?</span>ungrounded</span>'
-    if getattr(g, "verbatim", False):
-        return '<span class="pill verbatim"><span class="icon">✓</span>verbatim</span>'
+    if getattr(g, "matched", False):
+        return '<span class="pill matched"><span class="icon">✓</span>matched</span>'
     return '<span class="pill paraphrased"><span class="icon">~</span>paraphrased</span>'
 
 
 def _grounding_label(g: Any) -> str:
     if g is None:
         return "ungrounded"
-    if getattr(g, "verbatim", False):
-        return "verbatim"
+    if getattr(g, "matched", False):
+        return "matched"
     return "paraphrased"
 
 
@@ -527,7 +527,7 @@ def _groundings_for_review(session: ReviewSession) -> list[Any]:
 def _needs_manual_review(grounding: Any) -> bool:
     if grounding is None:
         return True
-    if not getattr(grounding, "verbatim", False):
+    if not getattr(grounding, "matched", False):
         return True
     return (
         getattr(grounding, "char_start", None) is None
@@ -540,7 +540,7 @@ def _review_counts(session: ReviewSession) -> dict[str, int]:
     needs_review = sum(1 for g in groundings if _needs_manual_review(g))
     return {
         "total": len(groundings),
-        "verbatim": len(groundings) - needs_review,
+        "matched": len(groundings) - needs_review,
         "needs_review": needs_review,
     }
 
@@ -645,7 +645,7 @@ def _render_final_extraction(session: ReviewSession) -> str:
         '<div style="font-size:.85rem;color:#64748b;margin-bottom:.25rem">Definition of Financial Indebtedness</div>'
         + (f'<span class="ref">{h(def_ref)}</span>' if def_ref else "")
         + (
-            f'<pre class="verbatim">{h(def_clean)}</pre>'
+            f'<pre class="clause-text">{h(def_clean)}</pre>'
             if def_clean
             else '<em style="color:#94a3b8">No definition extracted — Docling did not detect the anchor on the Scout-selected pages. Check the Source Page Snapshots below for the expected location.</em>'
         )
@@ -659,7 +659,7 @@ def _render_final_extraction(session: ReviewSession) -> str:
         '<div style="font-size:.85rem;color:#64748b;margin-bottom:.25rem">Restriction</div>'
         + (f'<span class="ref">{h(res_ref)}</span>' if res_ref else "")
         + (
-            f'<pre class="verbatim">{h(res_clean)}</pre>'
+            f'<pre class="clause-text">{h(res_clean)}</pre>'
             if res_clean
             else '<em style="color:#94a3b8">No restriction extracted — Docling did not detect a `N.M Financial Indebtedness` heading on the Scout-selected pages.</em>'
         )
@@ -948,7 +948,7 @@ def _evidence_row(*, label: str, grounding: Any, slice_content: str,
             '</div>'
         )
     page = getattr(grounding, "page_number", "—")
-    if not getattr(grounding, "verbatim", False):
+    if not getattr(grounding, "matched", False):
         ext = getattr(grounding, "extraction_text", "") or ""
         page_no = int(page) if isinstance(page, int) else -1
         page_text = _slice_text_for_page(
@@ -1256,14 +1256,14 @@ def _render_status_banner(session: ReviewSession, section_id: str) -> str:
                 '<div class="status warning">'
                 '<strong>Extraction completed with review items.</strong> '
                 f'{counts["needs_review"]} {noun} {verb} manual review; '
-                f'{counts["verbatim"]}/{counts["total"]} are verbatim-grounded.'
+                f'{counts["matched"]}/{counts["total"]} are matched.'
                 + jump
                 + '</div>'
             )
         return (
             '<div class="status success">'
             '<strong>Extraction completed.</strong> '
-            f'All {_review_counts(session)["total"]} extracted source matches are verbatim-grounded.'
+            f'All {_review_counts(session)["total"]} extracted source matches are matched.'
             '</div>'
         )
     label = {"scout": "Scout (page identification)",
@@ -1278,6 +1278,19 @@ def _render_status_banner(session: ReviewSession, section_id: str) -> str:
     )
 
 
+def _render_spec_yaml(session: ReviewSession) -> str:
+    if not session.spec_yaml:
+        return ""
+    return (
+        '<div class="dev-section">'
+        '<details>'
+        f'<summary>Extraction spec: {h(session.spec_name)}.yaml</summary>'
+        f'<pre style="margin-top:.75rem">{h(session.spec_yaml)}</pre>'
+        '</details>'
+        '</div>'
+    )
+
+
 def _render_covenant(idx: int, session: ReviewSession) -> str:
     section_id = f"covenant-{idx}"
     active = "active" if idx == 0 else ""
@@ -1288,6 +1301,7 @@ def _render_covenant(idx: int, session: ReviewSession) -> str:
         + _render_source_evidence(session, section_id)
         + _render_source_page_snapshots(session)
         + _render_dev_section(session)
+        + _render_spec_yaml(session)
         + "</section>"
     )
 
@@ -1317,7 +1331,7 @@ def render_report(sessions: list[ReviewSession]) -> str:
     n_total = len(sessions)
     review_items = sum(_review_counts(s)["needs_review"] for s in sessions)
     review_text = (
-        "all evidence verbatim-grounded"
+        "all evidence matched"
         if review_items == 0
         else f"{review_items} source match{'es' if review_items != 1 else ''} need review"
     )

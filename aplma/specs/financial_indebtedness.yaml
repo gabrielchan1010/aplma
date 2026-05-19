@@ -1,9 +1,10 @@
 spec_version: "1.2"
 covenant_type: "financial_indebtedness"
 description: >
-  Finds the Financial Indebtedness covenant in an APLMA facility agreement:
-  the main definition, the Permitted Financial Indebtedness exceptions, and
-  the General Covenants restriction clause.
+  Extracts the restriction on Financial Indebtedness from an APLMA facility
+  agreement, together with the defined terms it relies on: the "Financial
+  Indebtedness" definition, the "Permitted Financial Indebtedness" exceptions,
+  and the General Covenants restriction clause itself.
 
 # What this file does:
 #   Tells the system how to find the "Financial Indebtedness" clauses.

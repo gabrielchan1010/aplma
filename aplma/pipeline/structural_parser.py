@@ -258,32 +258,32 @@ def _parse_label(text: str) -> str | None:
 
 def _make_grounding(*, text: str, page: int, slice_content: str) -> GroundedSpan:
     if not slice_content:
-        return GroundedSpan(page_number=page, extraction_text=text, verbatim=True)
+        return GroundedSpan(page_number=page, extraction_text=text, matched=True)
 
     if "\n" in text:
         lines = [ln for ln in text.split("\n") if ln.strip()]
         if not lines:
-            return GroundedSpan(page_number=page, extraction_text=text, verbatim=True)
+            return GroundedSpan(page_number=page, extraction_text=text, matched=True)
         start = slice_content.find(lines[0])
         last_pos = slice_content.find(lines[-1])
         if start < 0 or last_pos < 0:
-            return GroundedSpan(page_number=page, extraction_text=text, verbatim=True)
+            return GroundedSpan(page_number=page, extraction_text=text, matched=True)
         end = last_pos + len(lines[-1])
         return GroundedSpan(
             page_number=page,
             extraction_text=text,
-            verbatim=True,
+            matched=True,
             char_start=start,
             char_end=end,
         )
 
     start = slice_content.find(text)
     if start < 0:
-        return GroundedSpan(page_number=page, extraction_text=text, verbatim=True)
+        return GroundedSpan(page_number=page, extraction_text=text, matched=True)
     return GroundedSpan(
         page_number=page,
         extraction_text=text,
-        verbatim=True,
+        matched=True,
         char_start=start,
         char_end=start + len(text),
     )

@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 class GroundedSpan(BaseModel):
     page_number: int = Field(description="1-based physical PDF page")
     extraction_text: str = Field(description="The text the model reported as the source quote")
-    verbatim: bool = Field(default=True, description="True iff extraction_text appears literally in the fetched source content")
+    matched: bool = Field(default=True, description="True iff extraction_text was located by exact string match in the Docling output")
     char_start: Optional[int] = Field(default=None)
     char_end: Optional[int] = Field(default=None)
 

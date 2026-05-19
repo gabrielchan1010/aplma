@@ -55,7 +55,7 @@ _CSS = """
 .aplma .pill.python  { background: #e0f2fe; color: #0369a1; }
 .aplma .grounding { display: inline-block; padding: .12rem .5rem; border-radius: 10px;
                     font-size: .7rem; font-weight: 700; }
-.aplma .grounding.verbatim    { background: #dcfce7; color: #15803d; }
+.aplma .grounding.matched     { background: #dcfce7; color: #15803d; }
 .aplma .grounding.paraphrased { background: #fef3c7; color: #92400e; }
 .aplma .grounding.ungrounded  { background: #fee2e2; color: #b91c1c; }
 .aplma details { background: #f9fafb; border: 1px solid #e5e7eb;
@@ -91,8 +91,8 @@ def _wrap(body: str) -> HTML:
 def _grounding_pill(g: Any) -> str:
     if g is None:
         return '<span class="grounding ungrounded">? ungrounded</span>'
-    if getattr(g, "verbatim", False):
-        return '<span class="grounding verbatim">✓ verbatim</span>'
+    if getattr(g, "matched", False):
+        return '<span class="grounding matched">✓ matched</span>'
     return '<span class="grounding paraphrased">~ paraphrased</span>'
 
 
@@ -362,7 +362,7 @@ def _extraction_row(*, cls: str, label: str, text: str,
 
 
 def _evidence_panel(grounding: Any, slice_content: str) -> str:
-    if grounding is None or not getattr(grounding, "verbatim", False):
+    if grounding is None or not getattr(grounding, "matched", False):
         return ""
     start = getattr(grounding, "char_start", None)
     end = getattr(grounding, "char_end", None)
